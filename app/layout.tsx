@@ -18,7 +18,7 @@ const sans = Inter({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`https://utkarshb1.github.io${BASE_PATH || '/us'}/`),
+  metadataBase: new URL('https://wedding-five-jet.vercel.app/'),
   title: 'Pooja & Bhavik · Delhi, India',
   description: 'Join us for the wedding of Pooja Shahi & Bhavik Kunwar in Delhi, India — December 2, 2026.',
   generator: 'v0.app',
