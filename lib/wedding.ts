@@ -10,7 +10,7 @@ export const WEDDING = {
   date: new Date('2026-12-02T11:40:00+05:30'),
   mapsUrl: 'https://maps.app.goo.gl/88E7WgCEAoLZ4vZZ9',
   mapsUrl1: 'https://maps.app.goo.gl/UtMPRQJkBfLuHS4u6',
-  mapsUrl2: 'https://maps.app.goo.gl/5Z6g7k1v8x9Q3y4A9',
+  mapsUrl2: 'https://maps.app.goo.gl/saifsS9XNtC9ASJ7A',
   musicUrl: 'https://music.youtube.com/watch?v=Het4pXDENBI&si=Q5SzqQqMNPfFrXeB',
 }
 

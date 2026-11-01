@@ -19,11 +19,11 @@ import { SCHEDULE, WEDDING, type ScheduleItem } from '@/lib/wedding'
 import { Reveal, SectionHeading } from '@/components/reveal'
 
 function EventIcon({ title }: { title: string }) {
-  const Icon = title.includes('Haldi')
+  const Icon = title.includes('Tilak')
     ? Flower2
-    : title === 'Engagement'
+    : title === 'Janeu Ceremony'
       ? Gem
-      : title === 'Sangeet'
+      : title === 'Mehendi Rasam'
         ? Music2
         : title === 'Wedding Ceremony'
           ? HeartHandshake
@@ -33,9 +33,9 @@ function EventIcon({ title }: { title: string }) {
 }
 
 function eventColorClass(title: string) {
-  if (title.includes('Haldi')) return 'event-haldi'
-  if (title === 'Engagement') return 'event-engagement'
-  if (title === 'Sangeet') return 'event-sangeet'
+  if (title.includes('Tilak')) return 'event-Tilak'
+  if (title === 'Janeu Ceremony') return 'event-Janeu Ceremony'
+  if (title === 'Mehendi Rasam') return 'event-Mehendi'
   if (title === 'Wedding Ceremony') return 'event-wedding'
   return 'event-wedding'
 }

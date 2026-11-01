@@ -1,3 +1,4 @@
+
 'use client'
 
 import { motion } from 'framer-motion'
@@ -27,34 +28,80 @@ function Equalizer({ active }: { active: boolean }) {
 
 export function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [playing, setPlaying] = useState(false)
 
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
 
-    audio.volume = 0.55
-    const unlockAudio = () => {
-      window.removeEventListener('pointerdown', unlockAudio)
-      window.removeEventListener('keydown', unlockAudio)
-      if (audio.paused) void audio.play().catch(() => undefined)
+useEffect(() => {
+  const audio = audioRef.current
+  if (!audio) return
+
+  audio.volume = 0.55
+
+  let started = false
+  let timer: number
+
+  const cleanup = () => {
+    window.clearTimeout(timer)
+
+    document.removeEventListener('pointerdown', handleInteraction, true)
+    document.removeEventListener('keydown', handleInteraction, true)
+    document.removeEventListener('wheel', handleInteraction, true)
+    document.removeEventListener('touchmove', handleInteraction, true)
+    document.removeEventListener('scroll', handleInteraction, true)
+  }
+
+  const attemptPlay = async () => {
+    if (!audio || !audio.paused) return
+
+    try {
+      await audio.play()
+      setPlaying(true)
+    } catch (error) {
+      console.log('Playback requires user interaction:', error)
+    }
+  }
+
+  const handleInteraction = (event: Event) => {
+    if (
+      buttonRef.current?.contains(event.target as Node)
+    ) {
+      return
     }
 
-    void audio.play().catch(() => undefined)
-    window.addEventListener('pointerdown', unlockAudio, { once: true })
-    window.addEventListener('keydown', unlockAudio, { once: true })
+    attemptPlay()
+  }
 
-    return () => {
-      window.removeEventListener('pointerdown', unlockAudio)
-      window.removeEventListener('keydown', unlockAudio)
-    }
-  }, [])
+  // Attempt autoplay after 5 seconds.
+  timer = window.setTimeout(attemptPlay, 5000)
+
+  // Detect first user interaction anywhere on the page.
+  document.addEventListener('pointerdown', handleInteraction, true)
+  document.addEventListener('keydown', handleInteraction, true)
+
+  // Detect mouse-wheel and touch scrolling.
+  document.addEventListener('wheel', handleInteraction, {
+    capture: true,
+    passive: true,
+  })
+
+  document.addEventListener('touchmove', handleInteraction, {
+    capture: true,
+    passive: true,
+  })
+
+  // Detect normal page scrolling.
+  document.addEventListener('scroll', handleInteraction, true)
+
+  return cleanup
+}, [])
+
 
   async function togglePlayback() {
     const audio = audioRef.current
     if (!audio) return
 
-    if (playing) {
+    if (!audio.paused) {
       audio.pause()
       return
     }
@@ -77,13 +124,14 @@ export function MusicPlayer() {
       <audio
         ref={audioRef}
         src={`${BASE_PATH}/Goldie_Sohel_-_Aaj_Sajeya_(mp3.pm).mp3`}
-        autoPlay
         loop
         preload="metadata"
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
       />
+
       <button
+        ref={buttonRef}
         type="button"
         onClick={togglePlayback}
         aria-pressed={playing}
@@ -97,6 +145,7 @@ export function MusicPlayer() {
             <Play className="size-4 translate-x-px" aria-hidden="true" />
           )}
         </span>
+
         <Equalizer active={playing} />
       </button>
     </motion.div>
