@@ -27,7 +27,7 @@ export function ScrollBackground() {
             srcSet={`${BASE_PATH}/indian-wedding-hero-desktop-botanical.png`}
           />
           <img
-            src={`${BASE_PATH}/indian-wedding-hero-centered.png`}
+            src={`${BASE_PATH}/indian-wedding-hero-botanical.png`}
             alt=""
             className="h-full w-full object-cover"
           />
